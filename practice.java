@@ -1,23 +1,23 @@
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 class Main {
+    static BufferedReader reader = null;
+
     public static void main(String[] args) {
+        try {
+            String line = "";
+            reader = new BufferedReader(new FileReader("./Book1.csv"));
+            while ((line = reader.readLine()) != null) {
+                String[] myArray = line.split(",");
+                for (String i : myArray) {
+                    System.out.printf(i + "\t\t");
+                }
+                System.out.println();
+            }
+        } catch (Exception e) {
+            System.out.println("Could'nt fetch the data !!! Error occured ! ");
+        }
 
-        // create an arraylist
-        ArrayList<Integer> primeNumbers = new ArrayList<>();
-        // add elements to arraylist
-        primeNumbers.add(3);
-        primeNumbers.add(5);
-        System.out.println("Prime Numbers: " + primeNumbers);
-
-        // create another arraylist
-        ArrayList<Integer> numbers = new ArrayList<>();
-        numbers.add(1);
-        numbers.add(2);
-
-        // Add all elements from primeNumbers to numbers
-        numbers.addAll(primeNumbers);
-
-        System.out.println("Numbers: " + numbers);
     }
 }

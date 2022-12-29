@@ -10,12 +10,6 @@ public class App {
   public static validation val = new validation();
   public static deals del = new deals();
 
-  // ! public static void bill_ck(int val) {
-  // System.out.println(" ");
-  // System.out.println("Your Total Bill is : " + val);
-  // System.out.println(" ");
-  // }
-
   public static void wc() {
     System.out.println("<--------------------------------------->");
     System.out.println("<\tWelcome to the store\t\t>");
