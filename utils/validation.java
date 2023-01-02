@@ -3,10 +3,12 @@ package utils;
 import java.util.Scanner;
 
 import utils.Bill_Calculations.bill_cal;
+import utils.*;
 
 public class validation {
     public static Scanner sc = new Scanner(System.in);
     public static bill_cal bl = new bill_cal();
+    public static remove rm = new remove();
 
     public static Boolean items_validation(String inp, String id) {
         if (id == "nm") {
@@ -57,6 +59,7 @@ public class validation {
             user_inp_validaition();
         } else if (inp.equals("n")) {
             bl.print_your_bill();
+            rm.remove_more();
         }
     }
 }
