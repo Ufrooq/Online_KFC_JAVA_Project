@@ -6,13 +6,12 @@ import java.util.Scanner;
 
 import utils.menu;
 
-import utils.remove;
-
 public class bill_cal {
+    static int remove_any_items_fn_stop = 0;
     static int sum = 0;
+    static int stop_removing = 0;
     static int count_var_to_print_bill = 0;
     static menu it = new menu();
-    static remove rm = new remove();
     static Scanner sc = new Scanner(System.in);
     public ArrayList<ArrayList<String>> your_bill = new ArrayList<>();
 
@@ -79,7 +78,10 @@ public class bill_cal {
         System.out.printf("--------------------------------------------------------------------------%n");
         System.out.printf("|\tYour total bill is : %30s Rs/-", sum);
         System.out.println("");
-
+        if (remove_any_items_fn_stop == 0) {
+            remove_any_items();
+            remove_any_items_fn_stop++;
+        }
     }
 
     public void remove_any_items() {
@@ -92,11 +94,26 @@ public class bill_cal {
             inp = sc.next().toLowerCase();
         }
         if (inp.equals("y")) {
-            rm.remove_function();
+            user_inp_validaition(your_bill);
         } else if (inp.equals("n")) {
-            count_var_to_print_bill += 1;
             print_your_bill();
         }
+    }
+
+    public void user_inp_validaition(ArrayList<ArrayList<String>> last_aList) {
+        int limit = last_aList.size();
+        String limit_in_str = Integer.toString(limit);
+        String regex = "[1-" + limit_in_str + "]";
+        System.out.print("Enter the product id from (1 - " + limit + ") : ");
+        String item_input = sc.next();
+        while (item_input.matches(regex) != true) {
+            System.out.println("<--- Enter valid input --->");
+            item_input = sc.next();
+        }
+        int item_input_str = Integer.parseInt(item_input);
+        last_aList.remove(item_input_str - 1);
+        remove_any_items();
+        System.out.println(last_aList);
     }
 
 }
