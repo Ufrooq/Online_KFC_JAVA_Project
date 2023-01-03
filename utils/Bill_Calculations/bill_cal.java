@@ -7,10 +7,8 @@ import java.util.Scanner;
 import utils.menu;
 
 public class bill_cal {
-    static int remove_any_items_fn_stop = 0;
     static int sum = 0;
     static int stop_removing = 0;
-    static int count_var_to_print_bill = 0;
     static menu it = new menu();
     static Scanner sc = new Scanner(System.in);
     public ArrayList<ArrayList<String>> your_bill = new ArrayList<>();
@@ -63,9 +61,24 @@ public class bill_cal {
 
     }
 
+    public void item_just_added() {
+        System.out.printf("                           -----------------------                        -%n");
+        System.out.printf("                           | Items Added To CART |                         %n");
+        System.out.printf("--------------------------------------------------------------------------%n");
+        System.out.printf("|\t%-15s |\t%-15s |\t%-15s |%n", "Items name", "Quantity", "Prizes");
+        System.out.printf("--------------------------------------------------------------------------%n");
+        for (ArrayList<String> i : your_bill) {
+            for (int j = 0; j < i.size(); j++) {
+                System.out.printf("|\t%-15s |", i.get(j));
+            }
+            System.out.println();
+        }
+        System.out.printf("--------------------------------------------------------------------------%n");
+    }
+
     public void print_your_bill() {
         System.out.printf("--------------------------------------------------------------------------%n");
-        System.out.printf("                                Your Bill                               %n");
+        System.out.printf("                                YOUR TOTAL BILL                          %n");
         System.out.printf("--------------------------------------------------------------------------%n");
         System.out.printf("|\t%-15s |\t%-15s |\t%-15s |%n", "Items name", "Quantity", "Prizes");
         System.out.printf("--------------------------------------------------------------------------%n");
@@ -78,9 +91,9 @@ public class bill_cal {
         System.out.printf("--------------------------------------------------------------------------%n");
         System.out.printf("|\tYour total bill is : %30s Rs/-", sum);
         System.out.println("");
-        if (remove_any_items_fn_stop == 0) {
+        if (stop_removing == 0) {
+            stop_removing++;
             remove_any_items();
-            remove_any_items_fn_stop++;
         }
     }
 
@@ -101,6 +114,8 @@ public class bill_cal {
     }
 
     public void user_inp_validaition(ArrayList<ArrayList<String>> last_aList) {
+
+        // ! Getting item to Update it :
         int limit = last_aList.size();
         String limit_in_str = Integer.toString(limit);
         String regex = "[1-" + limit_in_str + "]";
@@ -108,12 +123,37 @@ public class bill_cal {
         String item_input = sc.next();
         while (item_input.matches(regex) != true) {
             System.out.println("<--- Enter valid input --->");
+            System.out.println();
+            System.out.print("Enter the product id from (1 - " + limit + ") : ");
             item_input = sc.next();
         }
-        int item_input_str = Integer.parseInt(item_input);
-        last_aList.remove(item_input_str - 1);
+        int item_input_int = Integer.parseInt(item_input);
+        // ! <-------------------------------------------------------> :
+
+        // ! Updating Quantity :
+        String quan_limit_in_str = last_aList.get(item_input_int - 1).get(1);
+        int quan_limit_in_int = Integer.parseInt(quan_limit_in_str);
+        String quan_regex = "[1-" + quan_limit_in_str + "]";
+        System.out.print("Enter the quantity from (1 - " + quan_limit_in_str + ") : ");
+        String quan_item_input = sc.next();
+        while (quan_item_input.matches(quan_regex) != true) {
+            System.out.print("Enter the quantity from (1 - " + quan_limit_in_str + ") : ");
+            System.out.println("<--- Enter valid input --->");
+            quan_item_input = sc.next();
+        }
+        int quan_item_input_str = Integer.parseInt(quan_item_input);
+        quan_limit_in_int -= quan_item_input_str;
+        String to_update_quan = Integer.toString(quan_limit_in_int);
+        if (quan_limit_in_int == 0) {
+            last_aList.remove(item_input_int - 1);
+        } else {
+            last_aList.get(item_input_int - 1).set(1, to_update_quan);
+        }
+        // ! <-------------------------------------------------------> :
+        // ! Updating Prizes :
+        // item_sum += prizes[itm - 1] * quant;
+        // ! <-------------------------------------------------------> :
         remove_any_items();
-        System.out.println(last_aList);
     }
 
 }

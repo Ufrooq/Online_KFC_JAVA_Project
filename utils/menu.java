@@ -8,11 +8,8 @@ public class menu {
         System.out.printf("---------------------------------------------------------%n");
         System.out.printf("|\t%-31s |\t%-15s |%n", "Items name", "Prizes");
         System.out.printf("---------------------------------------------------------%n");
-        // System.out.println("No \tItems Available\t\t\tPrizes");
-        // System.out.println(
-        // "<---------------------------------------------------->");
         for (int i = 0; i < list.length; i++) {
-            System.out.println((i + 1) + ". " + "\t" + list[i][0] + "\t\t|\t" + list[i][1] + "\t");
+            System.out.println((i + 1) + ". " + "\t" + list[i][0] + "\t\t|\t" + list[i][1] + " Rs/-\t");
         }
         System.out.printf("---------------------------------------------------------%n");
         System.out.println(" ");
@@ -20,15 +17,15 @@ public class menu {
 
     public String[][] list_of_items() {
         String[][] list = {
-                { "Medium-Size Pizza", "700/ Rs-" },
-                { "Small-Size Pizza", "343/ Rs-" },
-                { "Cheeze Burger   ", "433/ Rs-" },
-                { "Zinger Pizza    ", "876/ Rs-" },
-                { "Fries           ", "343/ Rs-" },
-                { "Tacos           ", "654/ Rs-" },
-                { "Shawarma           ", "543/ Rs-" },
-                { "Pratha roll           ", "987/ Rs-" },
-                { "Ice Cream          ", "456/ Rs-" },
+                { "Medium-Size Pizza\t", "700" },
+                { "Small-Size Pizza \t", "343" },
+                { "Cheeze Burger    \t", "433" },
+                { "Zinger Pizza     \t", "87" },
+                { "Fries            \t", "343" },
+                { "Tacos            \t", "654" },
+                { "Shawarma         \t", "543" },
+                { "Pratha roll      \t", "987" },
+                { "Ice Cream        \t", "456" },
         };
         return list;
     };

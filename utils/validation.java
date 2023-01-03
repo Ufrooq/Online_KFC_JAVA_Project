@@ -40,6 +40,7 @@ public class validation {
         }
         if (isValid == true && isValid_quan == true) {
             bl.cal(item_input, quan_input);
+            bl.item_just_added();
             Add_more();
         }
     }
