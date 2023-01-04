@@ -12,6 +12,7 @@ public class bill_cal {
     static menu it = new menu();
     static Scanner sc = new Scanner(System.in);
     public ArrayList<ArrayList<String>> your_bill = new ArrayList<>();
+    static int[] prizes = { 700, 343, 433, 876, 343, 654, 543, 987, 456 };
 
     public void cal(String item, String quantity) {
         String[][] main_list = it.list_of_items();
@@ -143,6 +144,7 @@ public class bill_cal {
         }
         int quan_item_input_str = Integer.parseInt(quan_item_input);
         quan_limit_in_int -= quan_item_input_str;
+        sum -= (prizes[item_input_int - 1]) * quan_item_input_str;
         String to_update_quan = Integer.toString(quan_limit_in_int);
         if (quan_limit_in_int == 0) {
             last_aList.remove(item_input_int - 1);
@@ -151,7 +153,13 @@ public class bill_cal {
         }
         // ! <-------------------------------------------------------> :
         // ! Updating Prizes :
-        // item_sum += prizes[itm - 1] * quant;
+        if (quan_limit_in_int != 0) {
+            String item_prize_get = last_aList.get(item_input_int - 1).get(2);
+            int item_prize_int = Integer.parseInt(item_prize_get);
+            item_prize_int -= (prizes[item_input_int - 1]) * quan_item_input_str;
+            String item_prize_str = Integer.toString(item_prize_int);
+            last_aList.get(item_input_int - 1).set(2, item_prize_str);
+        }
         // ! <-------------------------------------------------------> :
         remove_any_items();
     }
