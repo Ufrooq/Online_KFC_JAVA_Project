@@ -1,5 +1,9 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import utils.Bill_Calculations.bill_cal;
 
@@ -8,10 +12,29 @@ public class validation {
     public static bill_cal bl = new bill_cal();
     public static menu menu_len = new menu();
 
+    public static int limit() {
+        ArrayList<ArrayList<String>> lim = new ArrayList<>();
+        try {
+            String line = "";
+            BufferedReader reader = null;
+            reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
+            while ((line = reader.readLine()) != null) {
+                String[] myArray = line.split(",");
+                ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
+                lim.add(temp_list);
+            }
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Could'nt fetch the data !!! Error occured ! ");
+        }
+        return lim.size();
+    }
+
     public static Boolean items_validation(String inp, String id) {
-        // int limit_of_items = menu_len.extracting_prizes_from_menu().length;
+        String LIMIT = Integer.toString(limit());
+        String regex_id = "[1-" + LIMIT + "]";
         if (id == "nm") {
-            final String CODE_FOR_123 = "[1-9]";
+            final String CODE_FOR_123 = regex_id;
             Boolean validation = inp.matches(CODE_FOR_123);
             return validation;
         } else {
@@ -22,7 +45,8 @@ public class validation {
     }
 
     public void user_inp_validaition() {
-        System.out.print("Enter the product id (1 - 9) : ");
+        String LIMIT = Integer.toString(limit());
+        System.out.print("Enter the product id (1 - " + LIMIT + ") : ");
         String item_input = sc.next();
         Boolean isValid = items_validation(item_input, "nm");
         while (isValid != true) {

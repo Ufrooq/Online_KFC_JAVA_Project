@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.util.Arrays;
 
 public class menu {
-
+    static int prize_controll = 0;
     static ArrayList<ArrayList<String>> Menu_LIST = new ArrayList<>();
     static BufferedReader reader = null;
 
@@ -24,16 +24,20 @@ public class menu {
     }
 
     public String[][] list_of_items() {
-        try {
-            String line = "";
-            reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
-            while ((line = reader.readLine()) != null) {
-                String[] myArray = line.split(",");
-                ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
-                Menu_LIST.add(temp_list);
+        if (prize_controll == 0) {
+            try {
+                String line = "";
+                reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
+                while ((line = reader.readLine()) != null) {
+                    String[] myArray = line.split(",");
+                    ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
+                    Menu_LIST.add(temp_list);
+                }
+                prize_controll++;
+                reader.close();
+            } catch (Exception e) {
+                System.out.println("Could'nt fetch the data !!! Error occured ! ");
             }
-        } catch (Exception e) {
-            System.out.println("Could'nt fetch the data !!! Error occured ! ");
         }
         String[][] list = new String[Menu_LIST.size()][2];
         int count = 0;
@@ -52,8 +56,11 @@ public class menu {
             int temp_data_in_int = Integer.parseInt(temp_data_in_str);
             prizes[i] = temp_data_in_int;
         }
-        System.out.println(Arrays.toString(prizes));
         return prizes;
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }

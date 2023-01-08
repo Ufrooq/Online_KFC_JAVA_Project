@@ -6,7 +6,6 @@ import utils.deals;
 import utils.validation;
 
 public class App {
-
   public static Scanner sc = new Scanner(System.in);
   public static menu bar = new menu();
   public static validation val = new validation();
@@ -27,6 +26,7 @@ public class App {
                """);
         System.out.print("Enter : ");
         start = sc.nextInt();
+        sc.nextLine();
         if (start == 1 || start == 2 || start == 3) {
           break;
         } else {
@@ -62,18 +62,25 @@ public class App {
   }
 
   public static void passwd() {
-    System.out.println("Please   Enter Password to get Access");
-    System.out.print("Password : ");
-    String passcode = sc.nextLine();
+    System.out.println("<-- Please Enter Password to get Access -->");
     int count = 0;
     while (true) {
-      if (passcode == "12345") {
-        System.out.println("Access granted !!!");
+      System.out.print("Password : ");
+      String passcode = sc.next();
+      if (passcode.matches("12345")) {
+        System.out.println("----------------------------");
+        System.out.println("     Access granted !!!");
+        System.out.println("----------------------------");
         ad.admin_authority();
       } else {
-        if (count > 2) {
+        if (count > 1) {
           System.out.println("Thanks for visiting :)");
+          break;
         } else {
+          System.out.println("\n----------------------------");
+          System.out.println("     Incorrect Password     ");
+          System.out.println("----------------------------");
+          System.out.println("Enter again --->\n");
           count++;
           continue;
         }

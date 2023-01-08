@@ -31,14 +31,6 @@ public class admin {
         } catch (Exception e) {
             System.out.println("Could'nt fetch the data !!! Error occured ! ");
         }
-        // !int[] prizes = new int[AV_STOCK_LIST.size()];
-        // !for (int i = 0; i < AV_STOCK_LIST.size(); i++) {
-        // !String temp_data_in_str = AV_STOCK_LIST.get(i).get(1);
-        // !int temp_data_in_int = Integer.parseInt(temp_data_in_str);
-        // !prizes[i] = temp_data_in_int;
-        // !}
-        // !System.out.println(Arrays.toString(prizes));
-
         while (true) {
             System.out.println("""
                     \nPress ------ >
@@ -87,12 +79,11 @@ public class admin {
         System.out.printf("                   -----------------------                  %n");
         System.out.printf("                   |   AVAILABLE STOCK   |                  %n");
         System.out.printf("-------------------------------------------------------------%n");
-        System.out.printf("|\t%-23s |\t\t%-11s |%n", "Items name", "Prizes");
+        System.out.printf("|\t%-40s |%-2s |%n", "Items name", "Prizes");
         System.out.printf("-------------------------------------------------------------%n");
         for (int i = 0; i < AV_STOCK_LIST.size(); i++) {
-            System.out.println(
-                    (i + 1) + ". " + "\t" + AV_STOCK_LIST.get(i).get(0) + "\t\t\t|\t\t" + AV_STOCK_LIST.get(i).get(1)
-                            + " Rs/-\t");
+            System.out.printf("%d\t%-40s %-2s Rs/-\n", (i + 1), AV_STOCK_LIST.get(i).get(0),
+                    AV_STOCK_LIST.get(i).get(1));
         }
         System.out.printf("-------------------------------------------------------------%n");
         System.out.println(" ");

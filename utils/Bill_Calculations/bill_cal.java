@@ -12,9 +12,9 @@ public class bill_cal {
     static menu mn = new menu();
     static Scanner sc = new Scanner(System.in);
     public ArrayList<ArrayList<String>> your_bill = new ArrayList<>();
-    static int[] prizes = { 700, 343, 433, 876, 343, 654, 543, 987, 456 };
 
     public void cal(String item, String quantity) {
+        int[] prizes = mn.extracting_prizes_from_menu().clone();
         String[][] main_list = mn.list_of_items();
         int item_sum = 0;
         int itm = Integer.parseInt(item);
@@ -81,11 +81,11 @@ public class bill_cal {
 
     public void print_your_bill() {
         System.out.println("\n");
-        System.out.printf("--------------------------------------------------------------------------%n");
+        System.out.printf("-----------------------------------------------------------------------------%n");
         System.out.printf("                                YOUR TOTAL BILL                          %n");
-        System.out.printf("--------------------------------------------------------------------------%n");
-        System.out.printf("|\t%-15s |\t%-15s |\t%-15s |%n", "Items name", "Quantity", "Prizes");
-        System.out.printf("--------------------------------------------------------------------------%n");
+        System.out.printf("-----------------------------------------------------------------------------%n");
+        System.out.printf("|\t%-20s |\t%-20s |\t%-20s |%n", "Items name", "Quantity", "Prizes");
+        System.out.printf("-----------------------------------------------------------------------------%n");
         int count = 1;
         for (ArrayList<String> i : your_bill) {
             System.out.print(count + ". ");
@@ -101,9 +101,13 @@ public class bill_cal {
             if (sum > 3000 && sum < 8000) {
                 int discount_10_per = (sum / 100) * 10;
                 System.out.printf("|\tBill after 10%% discount is : %30s Rs/-", (sum - discount_10_per));
+                pay_bill();
             } else if (sum > 8000) {
                 int discount_20_per = (sum / 100) * 20;
                 System.out.printf("|\tBill after 20%% discount is : %25s Rs/-", (sum - discount_20_per));
+                pay_bill();
+            } else {
+                pay_bill();
             }
         }
         System.out.println("\n\n");
@@ -130,6 +134,7 @@ public class bill_cal {
     }
 
     public void user_inp_validaition(ArrayList<ArrayList<String>> last_aList) {
+        int[] prizes = mn.extracting_prizes_from_menu().clone();
         // ! Getting item to Update it :
         int limit = last_aList.size();
         String limit_in_str = Integer.toString(limit);
@@ -176,6 +181,31 @@ public class bill_cal {
         }
         // ! <-------------------------------------------------------> :
         remove_any_items();
+    }
+
+    public static void pay_bill() {
+        System.out.println("\n\n----------------------------------------------------");
+        System.out.println("\n\n                  BILL PAYMENT SECTION              ");
+        System.out.println("\n\n----------------------------------------------------");
+        System.out.println("\nKindly Pay Your Bill ---->");
+        while (true) {
+            try {
+                System.out.print("Enter Amount : ");
+                int bill_amount = sc.nextInt();
+                if (bill_amount > sum) {
+                    System.out.println("There is your extra Amount " + (bill_amount - sum) + " Rs/-");
+                    System.out.println("Thanks For Coming to the Store");
+                    break;
+                } else if (bill_amount < sum) {
+                    System.out.println("<--- Kindly Enter Valid Amount --->");
+                }
+
+            } catch (Exception e) {
+                System.out.println("<--- Enter Valid Input --->");
+                sc.nextLine();
+            }
+
+        }
     }
 
 }
