@@ -1,10 +1,12 @@
 package utils;
 
 import java.time.LocalDate;
+import utils.Deals_Data.deals_data;
 
 public class deals {
 
     static LocalDate currenDate = LocalDate.now();
+    static deals_data ddt = new deals_data();
 
     public static void Loading() {
         System.out.println("Lets see the Deals available -----> ");
@@ -22,17 +24,23 @@ public class deals {
         } catch (Exception e) {
             System.out.println("Not valid");
         }
-        System.out.println();
+        System.out.println("\n\n");
     }
 
     public static void showDeals() {
-        String my_date = "2023-12-23";
-        String system_date = currenDate.toString();
-        if (my_date.matches(system_date)) {
-            System.out.println("You are done !!");
-        } else {
-            System.out.println("Sorrryyy !!");
-        }
+        String[][] imported_deals_list = ddt.deals_list;
+        System.out.println(imported_deals_list[0][0]);
+        System.out.println("\n\n");
+        // String[][][] events_list = {
+        // { { "2023 - 07 - 14" }, { "2 - Large Pizza" } },
+        // { { "2023 - 07 - 14" }, {} },
+        // { { "2023 - 07 - 14" }, {} },
+        // { { "2023 - 07 - 14" }, {} },
+        // { { "2023 - 07 - 14" }, {} },
+        // { { "2023 - 07 - 14" }, {} }
+        // };
+        // String august_14_ = "2023-07-14";
+        // System.out.println(currenDate);
     }
 
     public void my_deals() {

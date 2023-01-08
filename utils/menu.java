@@ -1,32 +1,59 @@
 package utils;
 
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.Arrays;
+
 public class menu {
+
+    static ArrayList<ArrayList<String>> Menu_LIST = new ArrayList<>();
+    static BufferedReader reader = null;
 
     public void my_menu() {
         String[][] list = list_of_items().clone();
         System.out.println(" ");
-        System.out.printf("---------------------------------------------------------%n");
-        System.out.printf("|\t%-31s |\t%-15s |%n", "Items name", "Prizes");
-        System.out.printf("---------------------------------------------------------%n");
+        System.out.printf("-----------------------------------------------------------%n");
+        System.out.printf("|\t%-40s %-2s |%n", "Items name", "Prizes");
+        System.out.printf("-----------------------------------------------------------%n");
         for (int i = 0; i < list.length; i++) {
-            System.out.println((i + 1) + ". " + "\t" + list[i][0] + "\t\t|\t" + list[i][1] + " Rs/-\t");
+            System.out.printf("%s\t%-40s %-2s Rs/-\n", (i + 1), list[i][0], list[i][1]);
         }
-        System.out.printf("---------------------------------------------------------%n");
+        System.out.printf("-----------------------------------------------------------%n");
         System.out.println(" ");
     }
 
     public String[][] list_of_items() {
-        String[][] list = {
-                { "Medium-Size Pizza\t", "700" },
-                { "Small-Size Pizza \t", "343" },
-                { "Cheeze Burger    \t", "433" },
-                { "Zinger Pizza     \t", "87" },
-                { "Fries            \t", "343" },
-                { "Tacos            \t", "654" },
-                { "Shawarma         \t", "543" },
-                { "Pratha roll      \t", "987" },
-                { "Ice Cream        \t", "456" },
-        };
+        try {
+            String line = "";
+            reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
+            while ((line = reader.readLine()) != null) {
+                String[] myArray = line.split(",");
+                ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
+                Menu_LIST.add(temp_list);
+            }
+        } catch (Exception e) {
+            System.out.println("Could'nt fetch the data !!! Error occured ! ");
+        }
+        String[][] list = new String[Menu_LIST.size()][2];
+        int count = 0;
+        for (ArrayList<String> i : Menu_LIST) {
+            String[] array = i.toArray(new String[0]);
+            list[count++] = array;
+        }
+        extracting_prizes_from_menu();
         return list;
     };
+
+    public int[] extracting_prizes_from_menu() {
+        int[] prizes = new int[Menu_LIST.size()];
+        for (int i = 0; i < Menu_LIST.size(); i++) {
+            String temp_data_in_str = Menu_LIST.get(i).get(1);
+            int temp_data_in_int = Integer.parseInt(temp_data_in_str);
+            prizes[i] = temp_data_in_int;
+        }
+        System.out.println(Arrays.toString(prizes));
+        return prizes;
+    }
+
 }

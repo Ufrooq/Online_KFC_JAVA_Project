@@ -9,17 +9,16 @@ import utils.menu;
 public class bill_cal {
     static int sum = 0;
     static int stop_removing = 0;
-    static menu it = new menu();
+    static menu mn = new menu();
     static Scanner sc = new Scanner(System.in);
     public ArrayList<ArrayList<String>> your_bill = new ArrayList<>();
     static int[] prizes = { 700, 343, 433, 876, 343, 654, 543, 987, 456 };
 
     public void cal(String item, String quantity) {
-        String[][] main_list = it.list_of_items();
+        String[][] main_list = mn.list_of_items();
         int item_sum = 0;
         int itm = Integer.parseInt(item);
         int quant = Integer.parseInt(quantity);
-        int[] prizes = { 700, 343, 433, 876, 343, 654, 543, 987, 456 };
         item_sum += prizes[itm - 1] * quant;
         sum += item_sum;
         if (your_bill.isEmpty() == false) {
@@ -63,35 +62,51 @@ public class bill_cal {
     }
 
     public void item_just_added() {
-        System.out.printf("                           -----------------------                        -%n");
-        System.out.printf("                           | Items Added To CART |                         %n");
+        System.out.println("\n\n\n");
+        System.out.printf("                           -----------------------                        %n");
+        System.out.printf("                           | Items Added To CART |                        %n");
         System.out.printf("--------------------------------------------------------------------------%n");
-        System.out.printf("|\t%-15s |\t%-15s |\t%-15s |%n", "Items name", "Quantity", "Prizes");
+        System.out.printf("|\t%-20s |\t%-20s |\t%-20s |%n", "Items name", "Quantity", "Prizes");
         System.out.printf("--------------------------------------------------------------------------%n");
         for (ArrayList<String> i : your_bill) {
             for (int j = 0; j < i.size(); j++) {
-                System.out.printf("|\t%-15s |", i.get(j));
+                System.out.printf("|\t%-20s |", i.get(j));
             }
             System.out.println();
         }
         System.out.printf("--------------------------------------------------------------------------%n");
+        System.out.println("\n\n\n");
+
     }
 
     public void print_your_bill() {
+        System.out.println("\n");
         System.out.printf("--------------------------------------------------------------------------%n");
         System.out.printf("                                YOUR TOTAL BILL                          %n");
         System.out.printf("--------------------------------------------------------------------------%n");
         System.out.printf("|\t%-15s |\t%-15s |\t%-15s |%n", "Items name", "Quantity", "Prizes");
         System.out.printf("--------------------------------------------------------------------------%n");
+        int count = 1;
         for (ArrayList<String> i : your_bill) {
+            System.out.print(count + ". ");
+            count += 1;
             for (int j = 0; j < i.size(); j++) {
                 System.out.printf("|\t%-15s |", i.get(j));
             }
             System.out.println();
         }
         System.out.printf("--------------------------------------------------------------------------%n");
-        System.out.printf("|\tYour total bill is : %30s Rs/-", sum);
-        System.out.println("");
+        System.out.printf("|\tYour total bill is : %35s Rs/-\n", sum);
+        if (stop_removing != 0) {
+            if (sum > 3000 && sum < 8000) {
+                int discount_10_per = (sum / 100) * 10;
+                System.out.printf("|\tBill after 10%% discount is : %30s Rs/-", (sum - discount_10_per));
+            } else if (sum > 8000) {
+                int discount_20_per = (sum / 100) * 20;
+                System.out.printf("|\tBill after 20%% discount is : %25s Rs/-", (sum - discount_20_per));
+            }
+        }
+        System.out.println("\n\n");
         if (stop_removing == 0) {
             stop_removing++;
             remove_any_items();
@@ -115,7 +130,6 @@ public class bill_cal {
     }
 
     public void user_inp_validaition(ArrayList<ArrayList<String>> last_aList) {
-
         // ! Getting item to Update it :
         int limit = last_aList.size();
         String limit_in_str = Integer.toString(limit);

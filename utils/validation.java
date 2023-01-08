@@ -1,14 +1,15 @@
 package utils;
 
 import java.util.Scanner;
-
 import utils.Bill_Calculations.bill_cal;
 
 public class validation {
     public static Scanner sc = new Scanner(System.in);
     public static bill_cal bl = new bill_cal();
+    public static menu menu_len = new menu();
 
     public static Boolean items_validation(String inp, String id) {
+        // int limit_of_items = menu_len.extracting_prizes_from_menu().length;
         if (id == "nm") {
             final String CODE_FOR_123 = "[1-9]";
             Boolean validation = inp.matches(CODE_FOR_123);
