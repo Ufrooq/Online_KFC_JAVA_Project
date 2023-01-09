@@ -28,6 +28,28 @@ public class App {
         start = sc.nextInt();
         sc.nextLine();
         if (start == 1 || start == 2 || start == 3) {
+          if (start == 1) {
+            System.out.println(
+                "Do you wanna have custom shopping OR wanna go with deals ???");
+            System.out.print("Press ------>\n'C' for Custom\n'D' for Deals : ");
+            String inp = sc.next().toLowerCase();
+            while ((inp.equals("c") || inp.equals("d")) == false) {
+              System.out.println("\t<--- Please enter a valid input --->");
+              System.out.print("Press ------>\n'C' for Custom\n'D' for Deals : ");
+              inp = sc.next().toLowerCase();
+            }
+            if (inp.equals("c")) {
+              bar.my_menu();
+              val.user_inp_validaition();
+            } else if (inp.equals("d")) {
+              del.my_deals();
+            }
+          } else if (start == 2) {
+            passwd();
+          } else if (start == 3) {
+            System.out.println("Thanks for visiting :)");
+            System.exit(0);
+          }
           break;
         } else {
           System.out.println("\n\t\t\t< ---- Enter a Valid Input ----- >");
@@ -36,28 +58,6 @@ public class App {
         System.out.println("\n\t\t\t< ---- Enter a Valid Input ----- >");
         sc.nextLine();
       }
-    }
-    if (start == 1) {
-      System.out.println(
-          "Do you wanna have custom shopping OR wanna go with deals ???");
-      System.out.print("Press ------>\n'C' for Custom\n'D' for Deals : ");
-      String inp = sc.next().toLowerCase();
-      while ((inp.equals("c") || inp.equals("d")) == false) {
-        System.out.println("\t<--- Please enter a valid input --->");
-        System.out.print("Press ------>\n'C' for Custom\n'D' for Deals : ");
-        inp = sc.next().toLowerCase();
-      }
-      if (inp.equals("c")) {
-        bar.my_menu();
-        val.user_inp_validaition();
-      } else if (inp.equals("d")) {
-        del.my_deals();
-      }
-    } else if (start == 2) {
-      passwd();
-    } else if (start == 3) {
-      System.out.println("Thanks for visiting :)");
-      System.exit(0);
     }
   }
 
@@ -72,6 +72,7 @@ public class App {
         System.out.println("     Access granted !!!");
         System.out.println("----------------------------");
         ad.admin_authority();
+        wc();
       } else {
         if (count > 1) {
           System.out.println("Thanks for visiting :)");

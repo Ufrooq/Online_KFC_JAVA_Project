@@ -13,6 +13,7 @@ public class admin {
     static ArrayList<ArrayList<String>> AV_STOCK_LIST = new ArrayList<>();
     static Scanner sc = new Scanner(System.in);
     static String name = "";
+    static int stop_read = 0;
 
     public void admin_authority() {
         System.out.println("\nPlease enter Your Name : ");
@@ -20,36 +21,45 @@ public class admin {
         System.out.printf("\n\n---------------------------------------------------------%n");
         System.out.printf("|            WELCOME TO ADMIN PANEL %s            |%n", name);
         System.out.printf("---------------------------------------------------------%n");
-        try {
-            String line = "";
-            reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
-            while ((line = reader.readLine()) != null) {
-                String[] myArray = line.split(",");
-                ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
-                AV_STOCK_LIST.add(temp_list);
+        if (stop_read == 0) {
+            try {
+                String line = "";
+                reader = new BufferedReader(new FileReader("D:/Java/Java_Project/utils/Stock/data.csv"));
+                while ((line = reader.readLine()) != null) {
+                    String[] myArray = line.split(",");
+                    ArrayList<String> temp_list = new ArrayList<>(Arrays.asList(myArray));
+                    AV_STOCK_LIST.add(temp_list);
+                }
+            } catch (Exception e) {
+                System.out.println("Could'nt fetch the data !!! Error occured ! ");
             }
-        } catch (Exception e) {
-            System.out.println("Could'nt fetch the data !!! Error occured ! ");
+            stop_read++;
         }
         while (true) {
             System.out.println("""
                     \nPress ------ >
                     1 for SHOW RECORD\n
                     2 for UPDATE RECORD\n
-                    3 for DEALS
+                    3 for DEALS\n
+                    4 for Exit
                     """);
             System.out.print("Enter : ");
-            int data_so_inp = sc.nextInt();
-            if (data_so_inp == 1) {
+            String data_so_inp = sc.next();
+            while (data_so_inp.matches("[1-4]") != true) {
+                System.out.println("\n<-- Enter a Valid input -->\n");
+                System.out.print("Enter : ");
+                data_so_inp = sc.next();
+            }
+            if (data_so_inp.matches("1")) {
                 show_available_stock();
-            } else if (data_so_inp == 2) {
+            } else if (data_so_inp.matches("2")) {
                 update_record();
-            } else if (data_so_inp == 3) {
+            } else if (data_so_inp.matches("3")) {
                 System.out.println("Comming Sooon !!");
-            } else if (data_so_inp == 4) {
-                System.out.println("Thanks for visiting Admin Panel " + name + " :)");
+            } else if (data_so_inp.matches("4")) {
                 break;
             }
+
         }
     }
 
@@ -60,7 +70,6 @@ public class admin {
             String[] array = i.toArray(new String[0]);
             data[count++] = array;
         }
-        System.out.println(Arrays.deepToString(data));
         FileWriter fileWriter = new FileWriter("D:/Java/Java_Project/utils/Stock/data.csv");
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
@@ -71,7 +80,6 @@ public class admin {
             }
             fileWriter.write("\n");
         }
-        System.out.println("Data write successfully");
         fileWriter.close();
     }
 
@@ -90,83 +98,125 @@ public class admin {
     }
 
     public void update_record() {
-        while (true) {
-            System.out.println("""
-                    \nPress ---->
-                    1 to update items
-                    2 to remove items
-                    3 to exit
-                    """);
-            int record_upd_option = sc.nextInt();
-            if (record_upd_option == 1) {
-                while (true) {
-                    show_available_stock();
-                    System.out.println("Enter item number : ");
-                    int id = sc.nextInt();
-                    System.out.println("""
-                            You Wanna update its name ?\n
-                            Press Y (Yes)  /  N (No)
-                            """);
-                    System.out.print("Enter : ");
-                    String name_upd = sc.next().toLowerCase();
-                    if (name_upd.contains("y")) {
-                        sc.nextLine();
-                        System.out.println("Old Item is " + AV_STOCK_LIST.get(id - 1).get(0));
-                        System.out.print("Enter new Name : ");
-                        String new_name = sc.nextLine();
-                        while (new_name.matches("^[a-zA-Z ]*$") != true) {
-                            System.out.println("<--- Please enter a valid product name --->");
-                            System.out.print("Enter new Name : ");
-                            new_name = sc.nextLine();
-                        }
-                        AV_STOCK_LIST.get(id - 1).set(0, new_name);
-                    }
-                    System.out.println("""
-                            You Wanna update its Prize ?\n
-                            Press Y (Yes)  /  N (No)
-                            """);
-                    System.out.print("Enter : ");
-                    String prize_upd = sc.next().toLowerCase();
-                    if (prize_upd.contains("y")) {
-                        sc.nextLine();
-                        System.out.println("Old Prize is " + AV_STOCK_LIST.get(id - 1).get(1) + " Rs/-");
-                        System.out.print("Enter new Prize : ");
-                        String new_prize = sc.nextLine();
-
-                        while (new_prize.matches("^[0-9]*$") != true) {
-                            System.out.println("<--- Please enter a valid product name --->");
-                            System.out.print("Enter new Name : ");
-                            new_prize = sc.nextLine();
-                        }
-                        AV_STOCK_LIST.get(id - 1).set(1, new_prize);
-                        System.out.println(AV_STOCK_LIST.get(id - 1).get(1));
-                    }
-                    System.out.println(AV_STOCK_LIST.get(id - 1));
-                    System.out.println("You Wanna Update more Items ?");
-                    sc.next();
-                    String more_update_option = sc.nextLine().toLowerCase();
-                    if (more_update_option.contains("y")) {
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
-                try {
-                    writeLine();
-                    System.out.println("\nData is updated SuccessFully in the DAta base\n");
-                } catch (Exception e) {
-                    System.out.println("\nCould'nt push the data\n");
-                }
-
-            } else if (record_upd_option == 2) {
+        System.out.println("""
+                \nPress ---->
+                1 to update items
+                2 to remove items
+                3 to exit
+                """);
+        System.out.println("Enter : ");
+        String record_upd_option = sc.next();
+        while (record_upd_option.matches("[1-3]") != true) {
+            System.out.println("<--- Enter a Valid input --->");
+            System.out.println("Enter : ");
+            record_upd_option = sc.next();
+        }
+        if (record_upd_option.matches("1")) {
+            while (true) {
                 show_available_stock();
-                System.out.println("Thanks for visiting the CONTROLL PANEL " + name);
-                break;
-            } else {
-                System.out.println("Thanks for visiting the CONTROLL PANEL " + name);
+                System.out.println("Enter item number : ");
+                int id = sc.nextInt();
+                System.out.println("""
+                        You Wanna update its name ?\n
+                        Press Y (Yes)  /  N (No)
+                        """);
+                System.out.print("Enter : ");
+                String name_upd = sc.next().toLowerCase();
+                if (name_upd.contains("y")) {
+                    sc.nextLine();
+                    System.out.println("Old Item is " + AV_STOCK_LIST.get(id - 1).get(0));
+                    System.out.print("Enter new Name : ");
+                    String new_name = sc.nextLine();
+                    while (new_name.matches("^[a-zA-Z ]*$") != true) {
+                        System.out.println("<--- Please enter a valid product name --->");
+                        System.out.print("Enter new Name : ");
+                        new_name = sc.nextLine();
+                    }
+                    AV_STOCK_LIST.get(id - 1).set(0, new_name);
+                }
+                System.out.println("""
+                        You Wanna update its Prize ?\n
+                        Press Y (Yes)  /  N (No)
+                        """);
+                System.out.print("Enter : ");
+                String prize_upd = sc.next().toLowerCase();
+                if (prize_upd.contains("y")) {
+                    sc.nextLine();
+                    System.out.println("Old Prize is " + AV_STOCK_LIST.get(id - 1).get(1) + " Rs/-");
+                    System.out.print("Enter new Prize : ");
+                    String new_prize = sc.nextLine();
+
+                    while (new_prize.matches("^[0-9]*$") != true) {
+                        System.out.println("<--- Please enter a valid product name --->");
+                        System.out.print("Enter new Name : ");
+                        new_prize = sc.nextLine();
+                    }
+                    AV_STOCK_LIST.get(id - 1).set(1, new_prize);
+                }
+                System.out.println(AV_STOCK_LIST.get(id - 1));
+                System.out.println("You Wanna Update more Items ?");
+                sc.next();
+                String more_update_option = sc.nextLine().toLowerCase();
+                if (more_update_option.contains("y")) {
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            try {
+                writeLine();
+                System.out.println("\nData is updated SuccessFully in the Data base\n");
+            } catch (Exception e) {
+                System.out.println("\nCould'nt push the data\n");
+            }
+
+        } else if (record_upd_option.matches("2")) {
+            del_items();
+        } else if (record_upd_option.matches("3")) {
+        }
+    }
+
+    public void del_items() {
+        show_available_stock();
+        while (true) {
+            System.out.print("\nEnter Item id to Delete :  ");
+            // Getting the item Input to remove it ---------->
+            String temp_1 = sc.next();
+            // ---------------------------------------------->
+            int temp_2 = AV_STOCK_LIST.size();
+            String item_limit = Integer.toString(temp_2);
+            String regex = "[1-" + item_limit + "]";
+            while (temp_1.matches(regex) != true) {
+                System.out.println("<--- Please Enter a Valid input --->");
+                System.out.print("\nEnter Item id from (1 - " + item_limit + ") to Delete :  ");
+                temp_1 = sc.next();
+            }
+            int item_id = Integer.parseInt(temp_1);
+            AV_STOCK_LIST.remove(item_id - 1);
+            System.out.println("Do You Wannt <-- REMOVE --> more items ?");
+            System.out.println("Enter ('y') for Yes || ('n') for No : ");
+            String option = sc.next().toLowerCase();
+            while (true) {
+                if ((option.contains("y")) || (option.contains("n"))) {
+                    break;
+                } else {
+                    System.out.println("<--- Enter a Valid input --->");
+                    System.out.println("Enter : ");
+                    option = sc.next();
+                }
+
+            }
+            if (option.contains("y")) {
+                continue;
+            } else if (option.contains("n")) {
                 break;
             }
         }
 
+        try {
+            writeLine();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
