@@ -11,11 +11,13 @@ public class App {
   public static validation val = new validation();
   public static deals del = new deals();
   public static admin ad = new admin();
+  public static final String ANSI_YELLOW = "\u001b[33m";
+  public static final String ANSI_RESET = "\u001b[0m";
 
   public static void wc() {
-    System.out.printf("\n\n---------------------------------------------------------------------%n");
+    System.out.printf("\n\n%s---------------------------------------------------------------------%n", ANSI_YELLOW);
     System.out.printf("                        ONLINE FOOD ORDERING                         %n");
-    System.out.printf("---------------------------------------------------------------------%n");
+    System.out.printf("---------------------------------------------------------------------%s%n", ANSI_RESET);
     int start;
     while (true) {
       try {

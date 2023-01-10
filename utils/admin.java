@@ -98,81 +98,89 @@ public class admin {
     }
 
     public void update_record() {
-        System.out.println("""
-                \nPress ---->
-                1 to update items
-                2 to remove items
-                3 to exit
-                """);
-        System.out.println("Enter : ");
-        String record_upd_option = sc.next();
-        while (record_upd_option.matches("[1-3]") != true) {
-            System.out.println("<--- Enter a Valid input --->");
+        while (true) {
+            System.out.println("""
+                    \nPress ---->
+                    1 to update items
+                    2 to remove items
+                    3 to add items
+                    4 to exit
+                    """);
             System.out.println("Enter : ");
-            record_upd_option = sc.next();
+            String record_upd_option = sc.next();
+            while (record_upd_option.matches("[1-4]") != true) {
+                System.out.println("<--- Enter a Valid input --->");
+                System.out.println("Enter : ");
+                record_upd_option = sc.next();
+            }
+            if (record_upd_option.matches("1")) {
+                update_items_in_inventory();
+            } else if (record_upd_option.matches("2")) {
+                del_items();
+            } else if (record_upd_option.matches("3")) {
+                add_new_items();
+            } else if (record_upd_option.matches("4")) {
+                break;
+            }
         }
-        if (record_upd_option.matches("1")) {
-            while (true) {
-                show_available_stock();
-                System.out.println("Enter item number : ");
-                int id = sc.nextInt();
-                System.out.println("""
-                        You Wanna update its name ?\n
-                        Press Y (Yes)  /  N (No)
-                        """);
-                System.out.print("Enter : ");
-                String name_upd = sc.next().toLowerCase();
-                if (name_upd.contains("y")) {
-                    sc.nextLine();
-                    System.out.println("Old Item is " + AV_STOCK_LIST.get(id - 1).get(0));
+    }
+
+    public void update_items_in_inventory() {
+        while (true) {
+            show_available_stock();
+            System.out.println("Enter item number : ");
+            int id = sc.nextInt();
+            System.out.println("""
+                    You Wanna update its name ?\n
+                    Press Y (Yes)  /  N (No)
+                    """);
+            System.out.print("Enter : ");
+            String name_upd = sc.next().toLowerCase();
+            if (name_upd.contains("y")) {
+                sc.nextLine();
+                System.out.println("Old Item is " + AV_STOCK_LIST.get(id - 1).get(0));
+                System.out.print("Enter new Name : ");
+                String new_name = sc.nextLine();
+                while (new_name.matches("^[a-zA-Z ]*$") != true) {
+                    System.out.println("<--- Please enter a valid product name --->");
                     System.out.print("Enter new Name : ");
-                    String new_name = sc.nextLine();
-                    while (new_name.matches("^[a-zA-Z ]*$") != true) {
-                        System.out.println("<--- Please enter a valid product name --->");
-                        System.out.print("Enter new Name : ");
-                        new_name = sc.nextLine();
-                    }
-                    AV_STOCK_LIST.get(id - 1).set(0, new_name);
+                    new_name = sc.nextLine();
                 }
-                System.out.println("""
-                        You Wanna update its Prize ?\n
-                        Press Y (Yes)  /  N (No)
-                        """);
-                System.out.print("Enter : ");
-                String prize_upd = sc.next().toLowerCase();
-                if (prize_upd.contains("y")) {
-                    sc.nextLine();
-                    System.out.println("Old Prize is " + AV_STOCK_LIST.get(id - 1).get(1) + " Rs/-");
+                AV_STOCK_LIST.get(id - 1).set(0, new_name);
+            }
+            System.out.println("""
+                    You Wanna update its Prize ?\n
+                    Press Y (Yes)  /  N (No)
+                    """);
+            System.out.print("Enter : ");
+            String prize_upd = sc.next().toLowerCase();
+            if (prize_upd.contains("y")) {
+                sc.nextLine();
+                System.out.println("Old Prize is " + AV_STOCK_LIST.get(id - 1).get(1) + " Rs/-");
+                System.out.print("Enter new Prize : ");
+                String new_prize = sc.nextLine();
+                while (new_prize.matches("^[0-9]*$") != true) {
+                    System.out.println("<--- Please enter a valid product name --->");
                     System.out.print("Enter new Prize : ");
-                    String new_prize = sc.nextLine();
-
-                    while (new_prize.matches("^[0-9]*$") != true) {
-                        System.out.println("<--- Please enter a valid product name --->");
-                        System.out.print("Enter new Name : ");
-                        new_prize = sc.nextLine();
-                    }
-                    AV_STOCK_LIST.get(id - 1).set(1, new_prize);
+                    new_prize = sc.nextLine();
                 }
-                System.out.println(AV_STOCK_LIST.get(id - 1));
-                System.out.println("You Wanna Update more Items ?");
-                sc.next();
-                String more_update_option = sc.nextLine().toLowerCase();
-                if (more_update_option.contains("y")) {
-                    continue;
-                } else {
-                    break;
-                }
+                AV_STOCK_LIST.get(id - 1).set(1, new_prize);
             }
-            try {
-                writeLine();
-                System.out.println("\nData is updated SuccessFully in the Data base\n");
-            } catch (Exception e) {
-                System.out.println("\nCould'nt push the data\n");
+            System.out.println(AV_STOCK_LIST.get(id - 1));
+            System.out.println("You Wanna Update more Items ?");
+            sc.next();
+            String more_update_option = sc.nextLine().toLowerCase();
+            if (more_update_option.contains("y")) {
+                continue;
+            } else {
+                break;
             }
-
-        } else if (record_upd_option.matches("2")) {
-            del_items();
-        } else if (record_upd_option.matches("3")) {
+        }
+        try {
+            writeLine();
+            System.out.println("\nData is updated SuccessFully in the Data base\n");
+        } catch (Exception e) {
+            System.out.println("\nCould'nt push the data\n");
         }
     }
 
@@ -212,11 +220,42 @@ public class admin {
                 break;
             }
         }
-
         try {
             writeLine();
         } catch (Exception e) {
             System.out.println(e);
+        }
+    }
+
+    public void add_new_items() {
+        sc.nextLine();
+        while (true) {
+            show_available_stock();
+            ArrayList<String> new_item = new ArrayList<>();
+            System.out.print("Enter NEW Product Name : ");
+            String name = sc.nextLine();
+            while (name.matches("^[a-zA-Z ]*$") != true) {
+                System.out.println("<--- Please enter a valid product name --->");
+                System.out.print("Enter new Name : ");
+                name = sc.nextLine();
+            }
+            new_item.add(0, name);
+            System.out.print("Enter Its Prize : ");
+            String prize = sc.nextLine();
+            while (prize.matches("^[0-9]*$") != true) {
+                System.out.println("<--- Please enter a valid product name --->");
+                System.out.print("Enter Its Prize ");
+                prize = sc.nextLine();
+            }
+            new_item.add(1, prize);
+            AV_STOCK_LIST.add(new_item);
+            System.out.println("Do You Wanna ADD more Items ?");
+            String more_update_option = sc.nextLine().toLowerCase();
+            if (more_update_option.contains("y")) {
+                continue;
+            } else {
+                break;
+            }
         }
     }
 }
