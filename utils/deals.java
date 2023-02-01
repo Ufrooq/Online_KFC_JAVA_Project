@@ -28,25 +28,30 @@ public class deals {
     }
 
     public static void showDeals() {
-        String[][] imported_deals_list = ddt.deals_list;
-        System.out.println(imported_deals_list[0][0]);
-        System.out.println("\n\n");
-        // String[][][] events_list = {
-        // { { "2023 - 07 - 14" }, { "2 - Large Pizza" } },
-        // { { "2023 - 07 - 14" }, {} },
-        // { { "2023 - 07 - 14" }, {} },
-        // { { "2023 - 07 - 14" }, {} },
-        // { { "2023 - 07 - 14" }, {} },
-        // { { "2023 - 07 - 14" }, {} }
-        // };
-        // String august_14_ = "2023-07-14";
-        // System.out.println(currenDate);
+        String[] events_list = {
+                "2023-01-01",
+                "2023-02-02",
+                "2023-03-03",
+                "2023-04-04",
+                "2023-05-05",
+                "2023-06-06",
+                "2023-07-07",
+                "2023-08-08",
+                "2023-09-09",
+                "2023-10-10",
+        };
+        String date = currenDate.toString();
+        for (int i = 0; i < events_list.length; i++) {
+            if (date.equals(events_list[i])) {
+                System.out.println("\u001b[33m" + ddt.deals_list[i][0] + "\u001b[0m");
+            }
+        }
     }
 
     public void my_deals() {
-        Loading();
+        System.out.println("\n");
+        // Loading();
         showDeals();
-
     }
 
 }
