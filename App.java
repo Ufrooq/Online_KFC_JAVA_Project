@@ -15,9 +15,6 @@ public class App {
   public static final String ANSI_RESET = "\u001b[0m";
 
   public static void wc() {
-    System.out.printf("\n\n%s---------------------------------------------------------------------%n", ANSI_YELLOW);
-    System.out.printf("                        ONLINE FOOD ORDERING                         %n");
-    System.out.printf("---------------------------------------------------------------------%s%n", ANSI_RESET);
     int start;
     while (true) {
       try {
@@ -69,6 +66,7 @@ public class App {
     while (true) {
       System.out.print("Password : ");
       String passcode = sc.next();
+      count++;
       if (passcode.matches("12345")) {
         System.out.println("----------------------------");
         System.out.println("     Access granted !!!");
@@ -76,7 +74,8 @@ public class App {
         ad.admin_authority();
         wc();
       } else {
-        if (count > 1) {
+        if (count > 3) {
+          System.out.println("Access Denied !!!");
           System.out.println("Thanks for visiting :)");
           break;
         } else {
@@ -93,6 +92,9 @@ public class App {
 
   public static void main(String[] args) {
     try {
+      System.out.printf("\n\n%s---------------------------------------------------------------------%n", ANSI_YELLOW);
+      System.out.printf("                        ONLINE FOOD ORDERING                         %n");
+      System.out.printf("---------------------------------------------------------------------%s%n", ANSI_RESET);
       wc();
     } catch (Exception e) {
       System.out.println(e);

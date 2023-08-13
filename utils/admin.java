@@ -178,7 +178,7 @@ public class admin {
         }
         try {
             writeLine();
-            System.out.println("\nData is updated SuccessFully in the Data base\n");
+            System.out.println("\nData is updated SuccessFully !!\n");
         } catch (Exception e) {
             System.out.println("\nCould'nt push the data\n");
         }
@@ -256,6 +256,12 @@ public class admin {
             } else {
                 break;
             }
+        }
+        try {
+            writeLine();
+            System.out.println("\nData is updated SuccessFully !!\n");
+        } catch (Exception e) {
+            System.out.println("\nCould'nt push the data\n");
         }
     }
 }
